@@ -5,6 +5,7 @@ import '../../firebase services/firestore_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../firebase services/cloud_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class InputWidget extends StatefulWidget {
   var userinfo;
@@ -21,6 +22,7 @@ class _InputWidgetState extends State<InputWidget> {
   TextEditingController _controller;
   File _image;
   String imageurl;
+  bool imageStillUploading = false;
   final picker = ImagePicker();
   CloudStorageService cloudstorage = CloudStorageService();
   @override
@@ -30,7 +32,7 @@ class _InputWidgetState extends State<InputWidget> {
     _controller = new TextEditingController(text: _message);
   }
 
-  Future<void> _getImage() async {
+  Future<void> _getImageAndUpload() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
@@ -39,6 +41,12 @@ class _InputWidgetState extends State<InputWidget> {
         print('No image selected.');
       }
     });
+    imageStillUploading = true;
+    imageurl = await cloudstorage.uploadImage(
+        imageToUpload: _image,
+        titleWithBaseName: basename(_image.path),
+        uploadLocation: 'chatfiles');
+    imageStillUploading = false;
   }
 
   @override
@@ -60,12 +68,7 @@ class _InputWidgetState extends State<InputWidget> {
           IconButton(
               icon: Icon(Icons.image),
               onPressed: () async {
-                await _getImage();
-
-                imageurl = await cloudstorage.uploadImage(
-                    imageToUpload: _image,
-                    titleWithBaseName: basename(_image.path),
-                    uploadLocation: 'chatfiles');
+                await _getImageAndUpload();
               }),
 
           Flexible(
@@ -93,14 +96,20 @@ class _InputWidgetState extends State<InputWidget> {
               child: new IconButton(
                 icon: new Icon(Icons.send),
                 onPressed: () {
-                  firestoreService.saveMessage(
-                    userinfo: widget.userinfo,
-                    time: DateTime.now().millisecondsSinceEpoch.round(),
-                    message: _message,
-                    role: widget.userinfo['role'],
-                    photourl: imageurl,
-                  );
+                  if (imageStillUploading) {
+                    return Fluttertoast.showToast(
+                        msg: 'Image is still uploading');
+                  } else {
+                    firestoreService.saveMessage(
+                      userinfo: widget.userinfo,
+                      time: DateTime.now().millisecondsSinceEpoch.round(),
+                      message: _message,
+                      role: widget.userinfo['role'],
+                      photourl: imageurl,
+                    );
+                  }
 
+                  imageurl = null;
                   setState(() {
                     _message = null;
                     textEditingController.clear();

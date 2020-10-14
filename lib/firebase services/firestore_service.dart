@@ -70,7 +70,7 @@ class FirestoreService {
     @required String photourl,
   }) async {
     try {
-      if (message != null) {
+      if (message != null || photourl != null) {
         var uid = _auth.getuid();
         DocumentReference _userchats = chatCollection.doc(role);
         _userchats.update({
