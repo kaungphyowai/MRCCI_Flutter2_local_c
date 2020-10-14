@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mrcci_ec/Pages/Conversation/Conversation.dart';
+import 'package:mrcci_ec/constants/loading.dart';
 import '../../firebase services/firestore_service.dart';
 import '../../firebase services/authservices.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +41,7 @@ class _ChatState extends State<Chat> {
         future: getuserinfo(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text('Loading ....');
+            return LoadingIndicator();
           } else {
             return RaisedButton(
               onPressed: () {

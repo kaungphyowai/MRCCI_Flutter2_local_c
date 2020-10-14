@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/meeting_detail.dart';
+import 'package:mrcci_ec/constants/loading.dart';
 import 'package:mrcci_ec/constants/shared_values.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 
@@ -18,7 +19,7 @@ class MeetingList extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return LoadingIndicator();
         }
 
         return new ListView(

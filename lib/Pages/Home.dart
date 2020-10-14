@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mrcci_ec/Pages/component/Dashboard.dart';
 import 'package:mrcci_ec/Pages/component/EventList.dart';
 import 'package:mrcci_ec/Pages/component/Profile.dart';
 import 'package:mrcci_ec/Pages/component/Meeting_List.dart';
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
+    Dashboard(),
     MeetingList(),
     EventList(),
     Chat(),
@@ -34,6 +36,13 @@ class _HomeState extends State<Home> {
   ];
 
   static const List<Widget> _appBarText = <Widget>[
+    Text(
+      'Dashboard',
+      style: TextStyle(
+        fontWeight: FontWeight.w300,
+        fontSize: 26,
+      ),
+    ),
     Text(
       'Meetings',
       style: TextStyle(
@@ -81,6 +90,10 @@ class _HomeState extends State<Home> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard),
+              title: Text('Dashboard'),
+              backgroundColor: Colors.black),
           BottomNavigationBarItem(
               icon: Icon(Icons.people),
               title: Text('Meetings'),

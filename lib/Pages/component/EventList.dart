@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/event_detail.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/meeting_detail.dart';
+import 'package:mrcci_ec/constants/loading.dart';
 import 'package:mrcci_ec/constants/shared_values.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 
@@ -22,11 +23,7 @@ class EventList extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: SpinKitDoubleBounce(
-            color: Colors.blue,
-            size: 20,
-          ));
+          return LoadingIndicator();
         }
 
         if (snapshot.connectionState == ConnectionState.none) {
