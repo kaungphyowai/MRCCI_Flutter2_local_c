@@ -30,8 +30,26 @@ class _AuthPageState extends State<AuthPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((timeStamp) => checkTheUserLogin());
+    // WidgetsBinding.instance
+    //     .addPostFrameCallback((timeStamp) => checkTheUserLogin());
+    FirebaseAuth.instance.authStateChanges().listen((firebaseuser) {
+      //print(firebaseuser.uid);
+      if (firebaseuser == null) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => Login()),
+            (Route<dynamic> rr) => false);
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (_) => Home(
+                      currentUser: firebaseuser,
+                      userId: firebaseuser.uid,
+                    )),
+            (route) => false);
+      }
+    });
   }
 
   @override

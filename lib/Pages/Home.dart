@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setCurrentUserID(widget.currentUser.uid);
+    //setCurrentUserID(widget.currentUser.uid);
 
     //setCurrentUserData(doc.data());
   }
