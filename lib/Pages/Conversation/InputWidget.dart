@@ -22,8 +22,7 @@ class _InputWidgetState extends State<InputWidget> {
   TextEditingController _controller;
   File _image;
   String imageurl;
-  bool isImageContain;
-  bool imageStillUploading;
+  bool imageStillUploading = false;
   final picker = ImagePicker();
   CloudStorageService cloudstorage = CloudStorageService();
   @override
@@ -68,7 +67,7 @@ class _InputWidgetState extends State<InputWidget> {
           ),
           IconButton(
               icon: Icon(Icons.image),
-              onPressed: () async* {
+              onPressed: () async {
                 await _getImageAndUpload();
               }),
 
