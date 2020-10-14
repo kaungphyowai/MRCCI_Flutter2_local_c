@@ -15,6 +15,11 @@ class Auth {
     _auth.signOut();
   }
 
+  String getuid() {
+    String uid = _auth.currentUser.uid;
+    return uid;
+  }
+
   Future signUp(
       email, password, username, phone, role, photourl, brithday) async {
     try {

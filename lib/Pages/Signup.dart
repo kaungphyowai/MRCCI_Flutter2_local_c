@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker/image_picker.dart';
 import '../firebase services/authservices.dart';
+import 'component/constant.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -23,11 +24,7 @@ class _SignUpState extends State<SignUp> {
       _uploadedFileURL;
   DateTime date;
   File _image;
-  List<String> roles = [
-    'Chief Executive Committee',
-    'Executive Committee',
-    'General Management Team',
-  ];
+
   @override
   Widget build(BuildContext context) {
     Future chooseFile() async {

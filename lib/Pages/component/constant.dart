@@ -5,3 +5,9 @@ import 'package:flutter/material.dart';
 Widget DoubleBounceLoading = SpinKitDoubleBounce(
   color: Colors.blue,
 );
+
+List<String> roles = [
+  'Chief Executive Committee',
+  'Executive Committee',
+  'General Management Team',
+];

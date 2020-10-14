@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../firebase services/firestore_service.dart';
@@ -21,8 +20,8 @@ class _ProfileState extends State<Profile> {
   Future getuserinfo() async {
     final uid = firebaseAuth.currentUser.uid;
     userinfo = await firestoreService.getCurrentUserInfo(uid);
-    print('Profile : ${userinfo.data()}');
-    //userinfo = userinfo.data();
+    print(userinfo.data());
+    userinfo = userinfo.data();
     //print(userinfo);
     return userinfo;
   }
@@ -30,7 +29,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         FutureBuilder(
           future: getuserinfo(),
@@ -40,33 +38,103 @@ class _ProfileState extends State<Profile> {
             } else {
               return Column(
                 children: [
-                  CircleAvatar(
-                    child: Image.network(userinfo['photourl']),
-                  ),
-                  Card(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                    child: ListTile(
-                      leading: Icon(Icons.account_circle),
-                      title: Text(userinfo['username']),
+                  Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/10.jpg'),
+                            fit: BoxFit.fill)),
+                    child: Container(
+                      width: double.infinity,
+                      height: 200,
+                      child: Container(
+                        alignment: Alignment(0.0, 2.5),
+                        child: CircleAvatar(
+                          backgroundImage: userinfo['photurl'] != null
+                              ? NetworkImage(userinfo['photourl'])
+                              : AssetImage('assets/images/10.jpg'),
+                          radius: 60.0,
+                        ),
+                      ),
                     ),
                   ),
-                  Card(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                    child: ListTile(
-                      leading: Icon(Icons.account_circle),
-                      title: Text(userinfo['phone']),
-                    ),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  Text(
+                    userinfo['username'],
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.blueGrey,
+                        letterSpacing: 2.0,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    userinfo['phone'],
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black45,
+                        letterSpacing: 2.0,
+                        fontWeight: FontWeight.w300),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Card(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                    child: ListTile(
-                      leading: Icon(Icons.account_circle),
-                      title: Text(userinfo['role']),
-                    ),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                      elevation: 2.0,
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 30),
+                          child: Text(
+                            userinfo['role'],
+                            style: TextStyle(
+                                letterSpacing: 2.0,
+                                fontWeight: FontWeight.w300),
+                          ))),
+                  SizedBox(
+                    height: 50,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0),
+                        ),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Colors.pink, Colors.redAccent]),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxHeight: 40.0,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Contact me",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                  letterSpacing: 2.0,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               );
             }

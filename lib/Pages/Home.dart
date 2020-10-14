@@ -7,6 +7,7 @@ import 'package:mrcci_ec/Pages/component/Meeting_List.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:mrcci_ec/models/user.dart';
 import '../constants/shared_values.dart';
+import 'component/Chat.dart';
 import '../firebase services/authservices.dart';
 import 'Login.dart';
 
@@ -28,10 +29,7 @@ class _HomeState extends State<Home> {
   static List<Widget> _widgetOptions = <Widget>[
     MeetingList(),
     EventList(),
-    Text(
-      'Index 2: Chat',
-      style: optionStyle,
-    ),
+    Chat(),
     Profile(),
   ];
 
