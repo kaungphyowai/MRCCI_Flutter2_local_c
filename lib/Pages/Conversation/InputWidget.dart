@@ -22,6 +22,7 @@ class _InputWidgetState extends State<InputWidget> {
   TextEditingController _controller;
   File _image;
   String imageurl;
+  bool isImageContain;
   bool imageStillUploading;
   final picker = ImagePicker();
   CloudStorageService cloudstorage = CloudStorageService();
