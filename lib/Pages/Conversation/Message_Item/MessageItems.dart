@@ -14,7 +14,7 @@ class OtherUserMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: <Widget>[
+        children: [
           Row(
             children: <Widget>[
               Container(
@@ -27,36 +27,58 @@ class OtherUserMessage extends StatelessWidget {
             mainAxisAlignment:
                 MainAxisAlignment.start, // aligns the chatitem to right end
           ),
+          data['photourl'] != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Image.network(data['photourl']),
+                      width: 200.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
+          data['message'] != null
+              ? Row(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        data['message'],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      width: 200.0,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(8.0)),
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment
+                      .start, // aligns the chatitem to right end
+                )
+              : Container(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 child: Text(
-                  data['message'],
-                  style: TextStyle(color: Colors.white),
+                  messagedate.toString(),
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12.0,
+                      fontStyle: FontStyle.normal),
                 ),
-                padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                width: 200.0,
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(8.0)),
-                margin: EdgeInsets.only(left: 10.0),
+                margin: EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
               )
             ],
           ),
-          Container(
-            child: Text(
-              messagedate.toString(),
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12.0,
-                  fontStyle: FontStyle.normal),
-            ),
-            margin: EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
-          )
         ],
-        crossAxisAlignment: CrossAxisAlignment.start,
       ),
-      margin: EdgeInsets.only(bottom: 10.0),
     );
   }
 }
@@ -76,25 +98,6 @@ class UserMessage extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          data['photourl'] != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(
-                          color: Colors.brown,
-                          width: 10,
-                        ),
-                      ),
-                      child: Image.network(data['photourl']),
-                    ),
-                  ],
-                )
-              : null,
           Row(
             children: <Widget>[
               Container(
@@ -107,23 +110,41 @@ class UserMessage extends StatelessWidget {
             mainAxisAlignment:
                 MainAxisAlignment.end, // aligns the chatitem to right end
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                child: Text(
-                  data['message'],
-                  style: TextStyle(color: Colors.white),
-                ),
-                padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                width: 200.0,
-                decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(8.0)),
-              )
-            ],
-            mainAxisAlignment:
-                MainAxisAlignment.end, // aligns the chatitem to right end
-          ),
+          data['photourl'] != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      child: Image.network(data['photourl']),
+                      width: 200.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
+          data['message'] != null
+              ? Row(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        data['message'],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      width: 200.0,
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(8.0)),
+                    )
+                  ],
+                  mainAxisAlignment:
+                      MainAxisAlignment.end, // aligns the chatitem to right end
+                )
+              : Container(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
