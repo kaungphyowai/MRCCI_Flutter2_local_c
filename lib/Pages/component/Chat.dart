@@ -43,14 +43,34 @@ class _ChatState extends State<Chat> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingIndicator();
           } else {
-            return RaisedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Conversation(userinfo)));
-              },
-              child: Text('Go to the ${userinfo['role']} chat'),
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: RawMaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Conversation(userinfo)));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blue)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(
+                          Icons.chat,
+                          color: Colors.blue,
+                        ),
+                        Text('Go to the ${userinfo['role']} chat')
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             );
           }
         });

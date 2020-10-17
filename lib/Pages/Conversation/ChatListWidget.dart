@@ -14,7 +14,7 @@ class ChatListWidget extends StatelessWidget {
 
     // TODO: implement build
     return StreamBuilder(
-      stream: chat.snapshots(),
+      stream: chat.snapshots().distinct(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -25,14 +25,9 @@ class ChatListWidget extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.active) {
-          // return RaisedButton(
-          //   onPressed: () {
-          //     print(snapshot.data.data()['messages'][0]['message']);
-          //   },
-          // );
           if (snapshot.hasData) {
             var data = snapshot.data.data()['messages'];
-
+            print('Widget rebuild');
             return Flexible(
               child: ListView.builder(
                 padding: EdgeInsets.all(10.0),

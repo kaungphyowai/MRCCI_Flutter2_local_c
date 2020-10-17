@@ -42,7 +42,7 @@ class _OtherUserMessageState extends State<OtherUserMessage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _videocontroller.dispose();
+    // _videocontroller.dispose();
   }
 
   @override
@@ -198,7 +198,7 @@ class _UserMessageState extends State<UserMessage> {
           // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
           setState(() {});
         });
-
+      print('UserMessage Rebuild');
       _videocontroller.setLooping(true);
     }
   }
@@ -207,7 +207,7 @@ class _UserMessageState extends State<UserMessage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _videocontroller.dispose();
+    // _videocontroller.dispose();
   }
 
   @override

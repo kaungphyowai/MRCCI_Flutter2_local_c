@@ -15,8 +15,10 @@ class ChatItem extends StatelessWidget {
     var messagedate = DateFormat().add_yMd().add_Hm().format(
         DateTime.fromMillisecondsSinceEpoch(data['time'], isUtc: true)
             .toLocal());
-    return data['uid'] == uid
-        ? UserMessage(data: data, messagedate: messagedate)
-        : OtherUserMessage(data: data, messagedate: messagedate);
+    if (data['uid'] == uid) {
+      return UserMessage(data: data, messagedate: messagedate);
+    } else {
+      return OtherUserMessage(data: data, messagedate: messagedate);
+    }
   }
 }

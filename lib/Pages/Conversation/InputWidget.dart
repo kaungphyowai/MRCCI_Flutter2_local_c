@@ -123,12 +123,14 @@ class _InputWidgetState extends State<InputWidget> {
             ),
             color: Colors.white,
           ),
-          IconButton(
-            icon: Icon(Icons.video_library),
-            onPressed: () {
-              _getVideoAndUpload();
-            },
-          ),
+          //video Still need to develops
+
+          // IconButton(
+          //   icon: Icon(Icons.video_library),
+          //   onPressed: () {
+          //     _getVideoAndUpload();
+          //   },
+          // ),
           IconButton(
             icon: Icon(Icons.image),
             onPressed: () {
