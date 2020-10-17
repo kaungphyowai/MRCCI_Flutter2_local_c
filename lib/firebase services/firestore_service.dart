@@ -68,9 +68,15 @@ class FirestoreService {
     @required int time,
     @required String role,
     @required String photourl,
+    @required String attachmenturl,
+    @required String attachmentname,
+    @required String videourl,
   }) async {
     try {
-      if (message != null || photourl != null) {
+      if (message != null ||
+          photourl != null ||
+          attachmenturl != null ||
+          videourl != null) {
         var uid = _auth.getuid();
         DocumentReference _userchats = chatCollection.doc(role);
         _userchats.update({
@@ -81,6 +87,11 @@ class FirestoreService {
               'time': time,
               'uid': uid,
               'photourl': photourl,
+              'attachment': {
+                'attachmenturl': attachmenturl,
+                'attachmentname': attachmentname,
+              },
+              'videourl': videourl
             }
           ])
         });

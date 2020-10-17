@@ -32,6 +32,7 @@ class ChatListWidget extends StatelessWidget {
           // );
           if (snapshot.hasData) {
             var data = snapshot.data.data()['messages'];
+
             return Flexible(
               child: ListView.builder(
                 padding: EdgeInsets.all(10.0),
