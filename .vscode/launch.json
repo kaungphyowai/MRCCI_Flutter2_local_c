@@ -8,7 +8,7 @@
             "name": "mrcci_ec",
             "request": "launch",
             "type": "dart",
-            "program": "lib/Pages/main.dart"
+            "program": "lib/main.dart"
         }
     ]
 }

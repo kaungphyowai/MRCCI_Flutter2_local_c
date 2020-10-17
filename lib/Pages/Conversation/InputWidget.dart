@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../firebase services/cloud_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:file_picker/file_picker.dart';
 
 class InputWidget extends StatefulWidget {
   var userinfo;
@@ -21,9 +22,14 @@ class _InputWidgetState extends State<InputWidget> {
   String _message;
   TextEditingController _controller;
   File _image;
+  File _attachmentFile;
   String imageurl;
+  String videourl;
+  String attachmenturl;
   bool imageStillUploading = false;
-  final picker = ImagePicker();
+  bool videoStillUploading = false;
+  bool attachmentStillUploading = false;
+  final imagePicker = ImagePicker();
   CloudStorageService cloudstorage = CloudStorageService();
   @override
   void initState() {
@@ -33,7 +39,7 @@ class _InputWidgetState extends State<InputWidget> {
   }
 
   Future<void> _getImageAndUpload() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -42,11 +48,60 @@ class _InputWidgetState extends State<InputWidget> {
       }
     });
     imageStillUploading = true;
-    imageurl = await cloudstorage.uploadImage(
-        imageToUpload: _image,
+    imageurl = await cloudstorage.uploadFile(
+        fileToUpload: _image,
         titleWithBaseName: basename(_image.path),
-        uploadLocation: 'chatfiles');
+        uploadLocation: 'chatimages');
     imageStillUploading = false;
+  }
+
+  Future<void> _getVideoAndUpload() async {
+    File _videoFile;
+    String titlewithbaseName;
+    final pickedvideoFile = await imagePicker.getVideo(
+        source: ImageSource.gallery, maxDuration: const Duration(seconds: 10));
+    setState(() {
+      if (pickedvideoFile != null) {
+        _videoFile = File(pickedvideoFile.path);
+
+        //change the extension of the file
+        List<String> stringList = basename(pickedvideoFile.path).split('.');
+        stringList[1] = 'mp4';
+        titlewithbaseName = stringList.join('.');
+      } else {
+        print('No video selected.');
+      }
+    });
+    videoStillUploading = true;
+    videourl = await cloudstorage.uploadFile(
+        fileToUpload: _videoFile,
+        titleWithBaseName: titlewithbaseName,
+        uploadLocation: 'chatvideos');
+    videoStillUploading = false;
+    print(videourl);
+  }
+
+  Future<void> _getAttachmentAndUpload() async {
+    print('hello');
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc'],
+    );
+
+    setState(() {
+      if (result != null) {
+        _attachmentFile = File(result.files.single.path);
+      } else {
+        print('No attachment selected');
+      }
+    });
+    attachmentStillUploading = true;
+    attachmenturl = await cloudstorage.uploadFile(
+        fileToUpload: _attachmentFile,
+        titleWithBaseName: basename(_attachmentFile.path),
+        uploadLocation: 'chatfiles');
+    attachmentStillUploading = false;
+    print(attachmenturl);
   }
 
   @override
@@ -59,17 +114,27 @@ class _InputWidgetState extends State<InputWidget> {
             child: new Container(
               margin: new EdgeInsets.symmetric(horizontal: 1.0),
               child: new IconButton(
-                icon: new Icon(Icons.face),
+                onPressed: () {
+                  _getAttachmentAndUpload();
+                },
+                icon: new Icon(Icons.attach_file),
                 color: Colors.grey,
               ),
             ),
             color: Colors.white,
           ),
           IconButton(
-              icon: Icon(Icons.image),
-              onPressed: () async {
-                await _getImageAndUpload();
-              }),
+            icon: Icon(Icons.video_library),
+            onPressed: () {
+              _getVideoAndUpload();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.image),
+            onPressed: () {
+              _getImageAndUpload();
+            },
+          ),
 
           Flexible(
             child: Container(
@@ -96,9 +161,11 @@ class _InputWidgetState extends State<InputWidget> {
               child: new IconButton(
                 icon: new Icon(Icons.send),
                 onPressed: () {
-                  if (imageStillUploading) {
+                  if (imageStillUploading ||
+                      attachmentStillUploading ||
+                      videoStillUploading) {
                     return Fluttertoast.showToast(
-                        msg: 'Image is still uploading');
+                        msg: 'File is still uploading');
                   } else {
                     firestoreService.saveMessage(
                       userinfo: widget.userinfo,
@@ -106,12 +173,19 @@ class _InputWidgetState extends State<InputWidget> {
                       message: _message,
                       role: widget.userinfo['role'],
                       photourl: imageurl,
+                      attachmenturl: attachmenturl,
+                      attachmentname: attachmenturl != null
+                          ? basename(_attachmentFile.path)
+                          : null,
+                      videourl: videourl,
                     );
                   }
 
-                  imageurl = null;
                   setState(() {
+                    attachmenturl = null;
+                    imageurl = null;
                     _message = null;
+                    videourl = null;
                     textEditingController.clear();
                   });
                 },
