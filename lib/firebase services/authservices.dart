@@ -6,9 +6,17 @@ class Auth {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Future login(email, password) async {
-    var result = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return result;
+    try {
+      var result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return result;
+    } catch (e) {
+      if (e.code == 'user-not-found') {
+        return 1;
+      } else if (e.code == 'wrong-password') {
+        return 2;
+      }
+    }
   }
 
   Future signout() async {
@@ -40,6 +48,7 @@ class Auth {
             })
             .then((value) => print('User added'))
             .catchError((error) => print("Failed to add user: $error"));
+        _auth.signOut();
       }
     } catch (e) {
       print(e);

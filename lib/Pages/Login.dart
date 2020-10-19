@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mrcci_ec/Pages/Home.dart';
 import 'package:mrcci_ec/constants/loading.dart';
 import '../firebase services/authservices.dart';
@@ -41,16 +42,23 @@ class _LoginState extends State<Login> {
                   RaisedButton(
                     child: Text("Login"),
                     onPressed: () async {
-                      setState(() {
-                        loading = true;
-                      });
                       var result = await auth.login(email.trim(), password);
                       if (result != null) {
-                        setState(() {
-                          loading = false;
-                        });
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Home()));
+                        if (result == 1) {
+                          return Fluttertoast.showToast(
+                              msg: 'Email or Password are incorrect');
+                        } else if (result == 2) {
+                          return Fluttertoast.showToast(
+                              msg: 'Email or Password are incorrect');
+                        } else {
+                          setState(() {
+                            loading = false;
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
+                          });
+                        }
                       } else {
                         setState(() {
                           loading = false;
