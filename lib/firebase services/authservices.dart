@@ -29,7 +29,7 @@ class Auth {
   }
 
   Future signUp(
-      email, password, username, phone, role, photourl, brithday) async {
+      email, password, username, phone, chooserole, photourl, brithday) async {
     try {
       var result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -42,7 +42,7 @@ class Auth {
             .set({
               'username': username,
               'phone': phone,
-              'role': role,
+              'role': chooserole,
               'birthday': brithday,
               'photourl': photourl,
             })

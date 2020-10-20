@@ -18,6 +18,7 @@ class _SignUpState extends State<SignUp> {
       email,
       password,
       role,
+      chooserole,
       phone,
       confirmpassword,
       birthday,
@@ -154,6 +155,13 @@ class _SignUpState extends State<SignUp> {
                                   onTap: () {
                                     setState(() {
                                       role = item;
+                                      if (role == roles[0]) {
+                                        chooserole = "CEC";
+                                      } else if (role == role[1]) {
+                                        chooserole = "EC";
+                                      } else if (role == role[2]) {
+                                        chooserole = 'GMT';
+                                      }
                                     });
                                   },
                                 ))
@@ -181,7 +189,7 @@ class _SignUpState extends State<SignUp> {
                               print(_uploadedFileURL);
                             }
                             await _auth.signUp(email, password, name, phone,
-                                role, _uploadedFileURL, date);
+                                chooserole, _uploadedFileURL, date);
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
