@@ -31,6 +31,9 @@ class _ConversationState extends State<Conversation> {
             child: Text('There is No internet'),
           );
         }
+        if (snapshot.data == null) {
+          return CircularProgressIndicator();
+        }
         if (snapshot.connectionState == ConnectionState.done) {
           return SafeArea(
             child: Scaffold(

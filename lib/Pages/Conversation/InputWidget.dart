@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:path/path.dart';
-import '../../firebase services/firestore_service.dart';
+import '../../firebase services/realtime_database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../firebase services/cloud_storage.dart';
@@ -106,7 +106,7 @@ class _InputWidgetState extends State<InputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    FirestoreService firestoreService = FirestoreService();
+    Realtime_DataBase realtime_dataBase = Realtime_DataBase();
     return Container(
       child: Row(
         children: <Widget>[
@@ -169,7 +169,7 @@ class _InputWidgetState extends State<InputWidget> {
                     return Fluttertoast.showToast(
                         msg: 'File is still uploading');
                   } else {
-                    firestoreService.saveMessage(
+                    realtime_dataBase.saveMessage(
                       userinfo: widget.userinfo,
                       time: DateTime.now().millisecondsSinceEpoch.round(),
                       message: _message,
