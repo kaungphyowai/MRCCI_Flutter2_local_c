@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Home.dart';
-import 'Login.dart';
 import 'component/constant.dart';
+import 'WelcomScreen.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class _AuthPageState extends State<AuthPage> {
                   )));
     } else {
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => Login()));
+          MaterialPageRoute(builder: (BuildContext context) => WelcomScreen()));
     }
   }
 
@@ -35,19 +35,26 @@ class _AuthPageState extends State<AuthPage> {
     FirebaseAuth.instance.authStateChanges().listen((firebaseuser) {
       //print(firebaseuser.uid);
       if (firebaseuser == null) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => Login()),
-            (Route<dynamic> rr) => false);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return WelcomScreen();
+            },
+          ),
+        );
       } else {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (_) => Home(
-                      currentUser: firebaseuser,
-                      userId: firebaseuser.uid,
-                    )),
-            (route) => false);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return Home(
+                currentUser: firebaseuser,
+                userId: firebaseuser.uid,
+              );
+            },
+          ),
+        );
       }
     });
   }

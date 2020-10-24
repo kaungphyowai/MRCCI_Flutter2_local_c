@@ -27,7 +27,7 @@ class _OtherUserMessageState extends State<OtherUserMessage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.data['videourl'] != null) {
+    if (widget.data['videourl'] != 'novalue') {
       _videocontroller = VideoPlayerController.network(widget.data['videourl'])
         ..initialize().then((_) {
           // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -62,7 +62,7 @@ class _OtherUserMessageState extends State<OtherUserMessage> {
             mainAxisAlignment:
                 MainAxisAlignment.start, // aligns the chatitem to right end
           ),
-          widget.data['photourl'] != null
+          widget.data['photourl'] != 'novalue'
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -81,7 +81,7 @@ class _OtherUserMessageState extends State<OtherUserMessage> {
                   width: 0,
                   height: 0,
                 ),
-          widget.data['videourl'] != null
+          widget.data['videourl'] != 'novalue'
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -128,7 +128,7 @@ class _OtherUserMessageState extends State<OtherUserMessage> {
                   width: 0,
                   height: 0,
                 ),
-          widget.data['message'] != null
+          widget.data['message'] != 'novalue'
               ? Row(
                   children: <Widget>[
                     Container(
@@ -192,7 +192,7 @@ class _UserMessageState extends State<UserMessage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.data['videourl'] != null) {
+    if (widget.data['videourl'] != 'novalue') {
       _videocontroller = VideoPlayerController.network(widget.data['videourl'])
         ..initialize().then((_) {
           // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -227,7 +227,7 @@ class _UserMessageState extends State<UserMessage> {
             mainAxisAlignment:
                 MainAxisAlignment.end, // aligns the chatitem to right end
           ),
-          widget.data['photourl'] != null
+          widget.data['photourl'] != 'novalue'
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -246,7 +246,7 @@ class _UserMessageState extends State<UserMessage> {
                   width: 0,
                   height: 0,
                 ),
-          widget.data['videourl'] != null
+          widget.data['videourl'] != 'novalue'
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -293,7 +293,7 @@ class _UserMessageState extends State<UserMessage> {
                   width: 0,
                   height: 0,
                 ),
-          widget.data['message'] != null
+          widget.data['message'] != 'novalue'
               ? Row(
                   children: <Widget>[
                     Container(
@@ -315,7 +315,7 @@ class _UserMessageState extends State<UserMessage> {
                   width: 0,
                   height: 0,
                 ),
-          widget.data['attachment']['attachmentname'] != null
+          widget.data['attachment']['attachmentname'] != 'novalue'
               ? Row(
                   children: <Widget>[
                     GestureDetector(

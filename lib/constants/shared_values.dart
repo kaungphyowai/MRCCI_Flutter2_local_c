@@ -1,5 +1,3 @@
-import 'package:mrcci_ec/models/user.dart';
-
 String userID;
 String userRole;
 Map<String, dynamic> userData = {};

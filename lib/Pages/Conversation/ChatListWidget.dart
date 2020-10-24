@@ -21,7 +21,9 @@ class ChatListWidget extends StatelessWidget {
             !snapshot.hasError &&
             snapshot.data.snapshot.value != null) {
           var data = snapshot.data.snapshot.value;
+          int datalength = data.length;
           print('Widget rebuild');
+          print(snapshot.data.snapshot.value[0]);
           return Flexible(
             child: ListView.builder(
               padding: EdgeInsets.all(10.0),
@@ -29,7 +31,7 @@ class ChatListWidget extends StatelessWidget {
                 data: snapshot.data.snapshot.value[index],
                 index: index,
               ),
-              itemCount: int.parse(data.length),
+              itemCount: data.length,
               reverse: false,
               controller: listScrollController,
             ),
