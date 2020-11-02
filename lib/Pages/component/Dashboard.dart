@@ -1,10 +1,14 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:mrcci_ec/constants/loading.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+
+import '../../firebase services/firestore_service.dart';
+import '../../firebase services/firestore_service.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -15,6 +19,9 @@ class _DashboardState extends State<Dashboard> {
   var currencyData;
   var rates;
   bool loading = false;
+  var currentUser;
+  FirestoreService firestoreService = FirestoreService();
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   Future getCurrency() async {
     try {
@@ -27,9 +34,23 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  Future getCurrentUser() async {
+    try {
+      var user =
+          await firestoreService.getCurrentUserInfo(auth.currentUser.uid);
+      setState(() {
+        currentUser = user.data();
+      });
+      print(currentUser);
+    } catch (e) {
+      print(e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //getCurrency();
+    getCurrentUser();
     return Container(
       child: FutureBuilder(
         future: getCurrency(),
