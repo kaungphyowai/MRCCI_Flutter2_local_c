@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mrcci_ec/Pages/component/Dashboard.dart';
+import 'package:intl/intl.dart';
+import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard.dart';
+import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_new.dart';
 import 'package:mrcci_ec/Pages/component/EventList.dart';
 import 'package:mrcci_ec/Pages/component/Profile.dart';
 import 'package:mrcci_ec/Pages/component/Meeting_List.dart';
@@ -24,6 +26,7 @@ class _HomeState extends State<Home> {
   CurrentUser userInfo;
   DocumentSnapshot doc;
   int _selectedIndex = 0;
+  List<String> upcoming_seven_days;
   FirestoreService _firestoreService = FirestoreService();
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);

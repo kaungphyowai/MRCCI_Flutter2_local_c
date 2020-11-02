@@ -16,6 +16,7 @@ class _ProfileState extends State<Profile> {
   FirestoreService firestoreService = FirestoreService();
   Auth _auth = Auth();
   var userinfo;
+  bool loading = false;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Future getuserinfo() async {
@@ -50,10 +51,16 @@ class _ProfileState extends State<Profile> {
                       child: Container(
                         alignment: Alignment(0.0, 2.5),
                         child: CircleAvatar(
-                          backgroundImage: userinfo['photurl'] != null
-                              ? NetworkImage(userinfo['photourl'])
-                              : AssetImage('assets/images/10.jpg'),
-                          radius: 60.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: userinfo['photourl'] != null
+                                ? Image.network(
+                                    userinfo['photourl'],
+                                    fit: BoxFit.contain,
+                                  )
+                                : Image.asset('assets/images/10.jpg'),
+                          ),
+                          radius: 50.0,
                         ),
                       ),
                     ),
@@ -147,8 +154,14 @@ class _ProfileState extends State<Profile> {
             textColor: Colors.black,
             child: Text('Sign Out'),
             elevation: 10.0,
-            onPressed: () {
-              _auth.signout();
+            onPressed: () async {
+              setState(() {
+                loading = true;
+              });
+              await firebaseAuth.signOut();
+              setState(() {
+                loading = false;
+              });
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

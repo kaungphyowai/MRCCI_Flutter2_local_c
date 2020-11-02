@@ -19,13 +19,13 @@ class InputWidget extends StatefulWidget {
 class _InputWidgetState extends State<InputWidget> {
   final TextEditingController textEditingController =
       new TextEditingController();
-  String _message;
+  String _message = 'novalue';
   TextEditingController _controller;
   File _image;
   File _attachmentFile;
-  String imageurl;
-  String videourl;
-  String attachmenturl;
+  String imageurl = 'novalue';
+  String videourl = 'novalue';
+  String attachmenturl = 'novalue';
   bool imageStillUploading = false;
   bool videoStillUploading = false;
   bool attachmentStillUploading = false;
@@ -176,18 +176,18 @@ class _InputWidgetState extends State<InputWidget> {
                       role: widget.userinfo['role'],
                       photourl: imageurl,
                       attachmenturl: attachmenturl,
-                      attachmentname: attachmenturl != null
+                      attachmentname: attachmenturl != 'novalue'
                           ? basename(_attachmentFile.path)
-                          : null,
+                          : 'novalue',
                       videourl: videourl,
                     );
                   }
 
                   setState(() {
-                    attachmenturl = null;
-                    imageurl = null;
-                    _message = null;
-                    videourl = null;
+                    attachmenturl = 'novalue';
+                    imageurl = 'novalue';
+                    _message = 'novalue';
+                    videourl = 'novalue';
                     textEditingController.clear();
                   });
                 },

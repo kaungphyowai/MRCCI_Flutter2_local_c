@@ -6,7 +6,7 @@ import 'package:mrcci_ec/models/meetings.dart';
 class MeetingDetailView extends StatefulWidget {
   @override
   _MeetingDetailViewState createState() => _MeetingDetailViewState();
-  DocumentSnapshot meeting;
+  var meeting;
   MeetingDetailView({this.meeting});
 }
 
@@ -20,7 +20,6 @@ class _MeetingDetailViewState extends State<MeetingDetailView>
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
     _scrollController = ScrollController();
-    
   }
 
   @override
@@ -47,8 +46,8 @@ class _MeetingDetailViewState extends State<MeetingDetailView>
                 background: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    RecipeImage(widget.meeting.data()['photoUrl']),
-                    RecipeTitle(widget.meeting.data(), 20.0),
+                    RecipeImage(widget.meeting['photoUrl']),
+                    RecipeTitle(widget.meeting, 20.0),
                   ],
                 ),
               ),
@@ -79,8 +78,8 @@ class _MeetingDetailViewState extends State<MeetingDetailView>
         },
         body: TabBarView(
           children: <Widget>[
-            IngredientsView(widget.meeting.data()['description']),
-            PreparationView(widget.meeting.data()['note']),
+            IngredientsView(widget.meeting['description']),
+            PreparationView(widget.meeting['note']),
           ],
           controller: _tabController,
         ),

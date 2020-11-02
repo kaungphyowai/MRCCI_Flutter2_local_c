@@ -18,15 +18,18 @@ class Realtime_DataBase {
     @required String videourl,
   }) async {
     try {
-      if (message != null ||
-          photourl != null ||
-          attachmenturl != null ||
-          videourl != null) {
+      if (message != 'novalue' ||
+          photourl != 'novalue' ||
+          attachmenturl != 'novalue' ||
+          videourl != 'novalue') {
         var uid = _auth.getuid();
         var data;
-
-        data = await ref.child('EC').once().then((value) => value.value);
-        String nextObjectname = data.length.toString();
+        print('press save button');
+        data = await ref
+            .child(userinfo['role'])
+            .once()
+            .then((value) => value.value);
+        String nextObjectname = (data.length).toString();
         await ref.child(userinfo['role']).child(nextObjectname).set({
           'username': userinfo['username'],
           'message': message,
@@ -39,6 +42,7 @@ class Realtime_DataBase {
           },
           'videourl': videourl
         });
+        print('message sent');
       }
     } catch (e) {
       return e.messages;

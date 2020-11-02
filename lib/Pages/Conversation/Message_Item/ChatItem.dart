@@ -9,9 +9,11 @@ class ChatItem extends StatelessWidget {
   var data;
 
   ChatItem({this.index, this.data});
+
   @override
   Widget build(BuildContext context) {
     var uid = _auth.getuid();
+
     var messagedate = DateFormat().add_yMd().add_Hm().format(
         DateTime.fromMillisecondsSinceEpoch(data['time'], isUtc: true)
             .toLocal());
