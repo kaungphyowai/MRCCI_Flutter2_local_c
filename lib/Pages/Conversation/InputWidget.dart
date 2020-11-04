@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:path/path.dart';
@@ -107,6 +108,8 @@ class _InputWidgetState extends State<InputWidget> {
   @override
   Widget build(BuildContext context) {
     Realtime_DataBase realtime_dataBase = Realtime_DataBase();
+    //realtime
+    final ref = FirebaseDatabase.instance.reference();
     return Container(
       child: Row(
         children: <Widget>[
@@ -133,7 +136,7 @@ class _InputWidgetState extends State<InputWidget> {
           // ),
           IconButton(
             icon: Icon(Icons.image),
-            onPressed: () {
+            onPressed: () async {
               _getImageAndUpload();
             },
           ),

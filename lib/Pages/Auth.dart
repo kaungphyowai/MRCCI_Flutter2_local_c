@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mrcci_ec/Pages/NewHome.dart';
 import 'Home.dart';
 import 'component/constant.dart';
 import 'WelcomScreen.dart';
@@ -48,10 +49,7 @@ class _AuthPageState extends State<AuthPage> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return Home(
-                currentUser: firebaseuser,
-                userId: firebaseuser.uid,
-              );
+              return NewHomeWithProvider();
             },
           ),
         );

@@ -28,6 +28,7 @@ class _DashboardState extends State<Dashboard> {
   CollectionReference meetings =
       FirebaseFirestore.instance.collection('meetings');
   CollectionReference events = FirebaseFirestore.instance.collection('events');
+
   Future getCurrency() async {
     try {
       Response response =

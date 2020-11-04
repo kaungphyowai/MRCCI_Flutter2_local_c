@@ -1,22 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mrcci_ec/Pages/HomeProvider.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/event_detail.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/meeting_detail.dart';
 import 'package:mrcci_ec/constants/loading.dart';
 import 'package:mrcci_ec/constants/shared_values.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
+import 'package:provider/provider.dart';
 
 class EventList extends StatelessWidget {
+  CollectionReference events_Provider;
+  Map<String, dynamic> currentUser;
   @override
   Widget build(BuildContext context) {
-    print('Event List :  $kCurrentUserID ');
+    // CollectionReference events =
+    //     FirebaseFirestore.instance.collection('events');
 
-    CollectionReference events =
-        FirebaseFirestore.instance.collection('events');
+    HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    events_Provider = homeProvider.getEvents;
+    currentUser = homeProvider.getcurrentUserInfo;
 
     return StreamBuilder<QuerySnapshot>(
-      stream: events.snapshots(),
+      stream: events_Provider.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');

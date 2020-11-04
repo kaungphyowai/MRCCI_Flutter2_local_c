@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import 'package:mrcci_ec/Pages/HomeProvider.dart';
 import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard.dart';
-import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_new.dart';
+
 import 'package:mrcci_ec/Pages/component/EventList.dart';
 import 'package:mrcci_ec/Pages/component/Profile.dart';
 import 'package:mrcci_ec/Pages/component/Meeting_List.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:mrcci_ec/models/user.dart';
-import '../constants/shared_values.dart';
+import 'package:provider/provider.dart';
+
 import 'component/Chat.dart';
-import '../firebase services/authservices.dart';
+
 import 'Login.dart';
 
 class Home extends StatefulWidget {
@@ -19,6 +21,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
   User currentUser;
   String userId;
+
   Home({this.currentUser, this.userId});
 }
 
@@ -71,9 +74,6 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //setCurrentUserID(widget.currentUser.uid);
-
-    //setCurrentUserData(doc.data());
   }
 
   void _onItemTapped(int index) {
@@ -82,8 +82,19 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future fetchFromProvider() async {
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+    await homeProvider.getuserinfo();
+    await homeProvider.fetchMeetings();
+    await homeProvider.fetchEvents();
+    //var user = homeProvider.getcurrentUserInfo;
+    //print('Fetched User Info from Provider : $user');
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetchFromProvider();
     return Scaffold(
       appBar: AppBar(title: _appBarText.elementAt(_selectedIndex)),
       body: Container(

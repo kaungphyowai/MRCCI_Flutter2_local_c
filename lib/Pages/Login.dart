@@ -31,9 +31,7 @@ class _LoginState extends State<Login> {
     Auth auth = Auth();
 
     return loading
-        ? LoadingIndicator(
-            loadingText: 'Logging you in...',
-          )
+        ? LoadingIndicator()
         : Scaffold(
             body: Center(
               child: SingleChildScrollView(
