@@ -10,23 +10,11 @@ class LoadingIndicator extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Center(
-          child: Column(
-        children: [
-          SpinKitDoubleBounce(
-            color: Colors.blueAccent,
-            size: 50,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: Text(
-              loadingText,
-              style: TextStyle(fontSize: 20, color: Colors.blue),
-            ),
-          )
-        ],
-      )),
+        child: SpinKitDoubleBounce(
+          color: Colors.blueAccent,
+          size: 40,
+        ),
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ import 'Cards/Meeting_Cards.dart';
 
 class MeetingList extends StatelessWidget {
   var userInfo;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Future getuserinfo() async {
     // final uid = firebaseAuth.currentUser.uid;

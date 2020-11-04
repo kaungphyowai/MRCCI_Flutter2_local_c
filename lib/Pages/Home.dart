@@ -27,6 +27,9 @@ class _HomeState extends State<Home> {
   DocumentSnapshot doc;
   int _selectedIndex = 0;
   List<String> upcoming_seven_days;
+
+  CollectionReference meetings =
+      FirebaseFirestore.instance.collection('meetings');
   FirestoreService _firestoreService = FirestoreService();
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -67,12 +70,20 @@ class _HomeState extends State<Home> {
     ),
   ];
 
+  Future getMeetings() async {
+    CollectionReference meet =
+        await FirebaseFirestore.instance.collection('meetings');
+    setState(() {
+      meetings = meet;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //setCurrentUserID(widget.currentUser.uid);
-
+    getMeetings();
     //setCurrentUserData(doc.data());
   }
 
