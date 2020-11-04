@@ -13,7 +13,7 @@ import 'Cards/Meeting_Cards.dart';
 class MeetingList extends StatelessWidget {
   var userInfo;
 
-  CollectionReference meetings_Provider;
+  Stream<QuerySnapshot> meetings_Provider;
   Map<String, dynamic> currentUser;
 
   //FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -39,10 +39,12 @@ class MeetingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //print('got into meeting');
     // CollectionReference meetings = homeProvider.getMeetings;
     //getMeetingFromBuilder(context);
     HomeProvider homeProvider = Provider.of<HomeProvider>(context);
     meetings_Provider = homeProvider.getMeetings;
+
     currentUser = homeProvider.getcurrentUserInfo;
     //print(currentUser.values);
     // CollectionReference meetings =
@@ -85,7 +87,7 @@ class MeetingList extends StatelessWidget {
     //   },
     // );
     return StreamBuilder<QuerySnapshot>(
-      stream: meetings_Provider.snapshots(),
+      stream: meetings_Provider,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -96,19 +98,29 @@ class MeetingList extends StatelessWidget {
         }
 
         return new ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            //print(document.data());
-            String meetingRole = document.data()['role'];
-            var userRole = currentUser['role'];
-            // print(userRole);
-            if (meetingRole == 'all' || meetingRole == userRole) {
-              return Meeting_Card(
-                meeting: document.data(),
-              );
-            } else {
-              return Container();
-            }
-          }).toList(),
+          children: snapshot.data.docs.length == null
+              ? Center(
+                  child: Expanded(
+                      child: Text(
+                    'There is no meetings yet.',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  )),
+                )
+              : snapshot.data.docs.map((DocumentSnapshot document) {
+                  //print(document.data());
+                  // String meetingRole = document.data()['role'];
+                  // var userRole = currentUser['role'];
+                  // print(userRole);
+                  // if (meetingRole == 'all' || meetingRole == userRole) {
+                  return Meeting_Card(
+                    meeting: document.data(),
+                  );
+                  // } else {
+                  //   return Container();
+                  // }
+                }).toList(),
         );
       },
     );

@@ -1,4 +1,7 @@
 import 'dart:ui';
+import 'package:mrcci_ec/Pages/HomeProvider.dart';
+import 'package:provider/provider.dart';
+
 import 'Dashboard_Components/Currency_Exchange_Rate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -63,20 +66,15 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     getuserinfo();
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    rates = homeProvider.getRates;
     //getCurrency();
     List<String> upcomingSevenDays = get_upcoming_seven_days();
     return ListView(
       children: [
-        FutureBuilder(
-          future: getCurrency(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingIndicator();
-            } else {
-              return Currency_Exchange_Rate(rates: rates);
-            }
-          },
-        ),
+        Currency_Exchange_Rate(rates: rates),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 25),
           child: Row(

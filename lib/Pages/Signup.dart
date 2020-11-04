@@ -95,7 +95,7 @@ class _SignUpState extends State<SignUp> {
       final DateTime picked = await showDatePicker(
         context: context,
         initialDate: date, // Refer step 1
-        firstDate: DateTime(2000),
+        firstDate: DateTime(1930),
         lastDate: DateTime(2025),
       );
       if (picked != null && picked != date) {

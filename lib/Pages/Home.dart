@@ -8,13 +8,12 @@ import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard.dart';
 import 'package:mrcci_ec/Pages/component/EventList.dart';
 import 'package:mrcci_ec/Pages/component/Profile.dart';
 import 'package:mrcci_ec/Pages/component/Meeting_List.dart';
+import 'package:mrcci_ec/constants/loading.dart';
 import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:mrcci_ec/models/user.dart';
 import 'package:provider/provider.dart';
 
 import 'component/Chat.dart';
-
-import 'Login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -30,6 +29,7 @@ class _HomeState extends State<Home> {
   DocumentSnapshot doc;
   int _selectedIndex = 0;
   List<String> upcoming_seven_days;
+  bool loading = false;
 
   CollectionReference meetings =
       FirebaseFirestore.instance.collection('meetings');
@@ -73,13 +73,13 @@ class _HomeState extends State<Home> {
     ),
   ];
 
-  Future getMeetings() async {
-    CollectionReference meet =
-        await FirebaseFirestore.instance.collection('meetings');
-    setState(() {
-      meetings = meet;
-    });
-  }
+  // Future getMeetings() async {
+  //   CollectionReference meet =
+  //       await FirebaseFirestore.instance.collection('meetings');
+  //   setState(() {
+  //     meetings = meet;
+  //   });
+  // }
 
   @override
   void initState() {
@@ -101,8 +101,11 @@ class _HomeState extends State<Home> {
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
     await homeProvider.getuserinfo();
+    await homeProvider.getCurrency();
     await homeProvider.fetchMeetings();
     await homeProvider.fetchEvents();
+    await homeProvider.getUpcomingMeetings();
+
     //var user = homeProvider.getcurrentUserInfo;
     //print('Fetched User Info from Provider : $user');
   }

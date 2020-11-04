@@ -1,0 +1,12 @@
+{
+  "indexes": [
+    {
+      "collectionId": "meetings",
+      "fields": [
+        { "fieldPath": "role", "mode": "ASCENDING" },
+        { "fieldPath": "date", "mode": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

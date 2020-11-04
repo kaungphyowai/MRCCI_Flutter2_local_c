@@ -11,16 +11,16 @@ List<dynamic> getUpcomingMeetings(
   for (var j = 0; j < snapshot.data.docs.length; j = j + 1) {
     var document = snapshot.data.docs[j];
     var documentInfo = document.data();
-    print(documentInfo);
+    //print(documentInfo);
     String meetingRole = documentInfo['role'];
-    print(userInfo);
+    //print(userInfo);
     var userRole = userInfo['role'];
 
     var meetingDate = document.data()['date'];
     if (meetingRole == 'all' || meetingRole == userRole) {
       for (var i = 0; i < upcomingSevenDays.length; i++) {
         if (upcomingSevenDays[i] == meetingDate) {
-          print('match');
+          // print('match');
           upcomingMeetings.add(document.data());
           break;
         }
@@ -53,7 +53,7 @@ List<dynamic> getUpcomingEvents(
 
     for (var i = 0; i < upcomingSevenDays.length; i++) {
       if (upcomingSevenDays[i] == meetingDate) {
-        print('match');
+        //print('match');
         upcomingEvents.add(document.data());
         break;
       }

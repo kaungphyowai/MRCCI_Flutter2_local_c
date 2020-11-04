@@ -10,7 +10,7 @@ import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:provider/provider.dart';
 
 class EventList extends StatelessWidget {
-  CollectionReference events_Provider;
+  Stream<QuerySnapshot> events_Provider;
   Map<String, dynamic> currentUser;
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class EventList extends StatelessWidget {
     currentUser = homeProvider.getcurrentUserInfo;
 
     return StreamBuilder<QuerySnapshot>(
-      stream: events_Provider.snapshots(),
+      stream: events_Provider,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
