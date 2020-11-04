@@ -9,7 +9,7 @@ class LoadingIndicator extends StatelessWidget {
       child: Center(
         child: SpinKitDoubleBounce(
           color: Colors.blueAccent,
-          size: 50,
+          size: 40,
         ),
       ),
     );

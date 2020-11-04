@@ -12,9 +12,11 @@ import 'Cards/Meeting_Cards.dart';
 
 class MeetingList extends StatelessWidget {
   var userInfo;
+
   CollectionReference meetings_Provider;
   Map<String, dynamic> currentUser;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  //FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // Future getuserinfo() async {
   //   // final uid = firebaseAuth.currentUser.uid;
   //   // userinfo = await firestoreService.getCurrentUserInfo(uid);
