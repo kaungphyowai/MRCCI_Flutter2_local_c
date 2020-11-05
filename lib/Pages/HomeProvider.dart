@@ -72,16 +72,18 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future getUpcomingMeetings() async {
+    String userRole = userInfo['role'];
     upcoming_meetings = FirebaseFirestore.instance
         .collection('meetings')
-        .where('role', isEqualTo: userInfo['role'])
         .where('date', isGreaterThan: today)
-        .orderBy('date')
         .snapshots();
+
     upcoming_meetings.forEach((element) {
       element.docs.forEach((element) {
-        print('Upcoming Meeting : ${element.data()}');
+        print(element.data());
       });
     });
+
+    notifyListeners();
   }
 }

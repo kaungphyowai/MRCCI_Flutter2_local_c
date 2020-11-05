@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:mrcci_ec/Pages/HomeProvider.dart';
+import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_Components/CurencyCalculator.dart';
 import 'package:provider/provider.dart';
 
 import 'Dashboard_Components/Currency_Exchange_Rate.dart';
@@ -74,7 +75,7 @@ class _DashboardState extends State<Dashboard> {
     List<String> upcomingSevenDays = get_upcoming_seven_days();
     return ListView(
       children: [
-        Currency_Exchange_Rate(rates: rates),
+        CurrencyCalculator(),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 25),
           child: Row(
