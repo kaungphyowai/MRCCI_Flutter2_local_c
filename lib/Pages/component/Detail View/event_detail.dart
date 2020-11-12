@@ -6,7 +6,7 @@ import 'package:mrcci_ec/models/meetings.dart';
 class EventDetailView extends StatefulWidget {
   @override
   EventDetailViewState createState() => EventDetailViewState();
-  DocumentSnapshot event;
+  var event;
   EventDetailView({this.event});
 }
 
@@ -46,8 +46,8 @@ class EventDetailViewState extends State<EventDetailView>
                 background: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    RecipeImage(widget.event.data()['photoUrl']),
-                    RecipeTitle(widget.event.data(), 20.0),
+                    RecipeImage(widget.event['photoUrl']),
+                    RecipeTitle(widget.event, 20.0),
                   ],
                 ),
               ),
@@ -78,8 +78,8 @@ class EventDetailViewState extends State<EventDetailView>
         },
         body: TabBarView(
           children: <Widget>[
-            IngredientsView(widget.event.data()['description']),
-            PreparationView(widget.event.data()['presenters']),
+            IngredientsView(widget.event['description']),
+            PreparationView(widget.event['presenters']),
           ],
           controller: _tabController,
         ),
@@ -167,13 +167,16 @@ class RecipeImage extends StatelessWidget {
 }
 
 class RecipeTitle extends StatelessWidget {
-  final Map<String, dynamic> meeting;
+  var meeting;
   final double padding;
 
   RecipeTitle(this.meeting, this.padding);
 
   @override
   Widget build(BuildContext context) {
+    Timestamp date = meeting['date'];
+    var toFormat = DateTime.parse(date.toDate().toString());
+    var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Column(
@@ -192,7 +195,7 @@ class RecipeTitle extends StatelessWidget {
               Icon(Icons.calendar_view_day, size: 20.0),
               SizedBox(width: 5.0),
               Text(
-                meeting['date'],
+                formattedDate,
                 style: Theme.of(context).textTheme.caption,
               ),
               SizedBox(width: 10.0),

@@ -97,14 +97,14 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future fetchFromProvider() async {
+  Future fetchFromProvider(BuildContext context) async {
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
     await homeProvider.getuserinfo();
     await homeProvider.getCurrency();
+    await homeProvider.getUpcomingMeetings();
     await homeProvider.fetchMeetings();
     await homeProvider.fetchEvents();
-    await homeProvider.getUpcomingMeetings();
 
     //var user = homeProvider.getcurrentUserInfo;
     //print('Fetched User Info from Provider : $user');
@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    fetchFromProvider();
+    fetchFromProvider(context);
     return Scaffold(
       appBar: AppBar(title: _appBarText.elementAt(_selectedIndex)),
       body: Container(

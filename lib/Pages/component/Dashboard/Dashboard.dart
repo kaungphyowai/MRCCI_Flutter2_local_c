@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:mrcci_ec/Pages/HomeProvider.dart';
 import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_Components/CurencyCalculator.dart';
+import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_Components/UpcomingEventsNew.dart';
 import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_Components/UpcomingMeetingsNew.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,6 @@ import 'package:mrcci_ec/constants/loading.dart';
 import '../../../firebase services/authservices.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Dashboard_Components/DashBoard_Functions.dart';
-import 'Dashboard_Components/Upcoming_Meetings.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -79,7 +79,34 @@ class _DashboardState extends State<Dashboard> {
       scrollDirection: Axis.vertical,
       children: [
         CurrencyCalculator(),
+        Center(
+          child: Text(
+            'Upcoming Meetings',
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.italic,
+                color: Colors.blue),
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
         UpcomingMeetingsNew(),
+        SizedBox(
+          height: 5,
+        ),
+        Center(
+          child: Text(
+            'Upcoming Events',
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.italic,
+                color: Colors.blue),
+          ),
+        ),
+        UpcomingEventsNew(),
         // Padding(
         //   padding: const EdgeInsets.symmetric(vertical: 25),
         //   child: Row(

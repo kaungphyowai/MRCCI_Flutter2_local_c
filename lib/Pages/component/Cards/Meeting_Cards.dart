@@ -7,6 +7,9 @@ class Meeting_Card extends StatelessWidget {
   Meeting_Card({@required this.meeting});
   @override
   Widget build(BuildContext context) {
+    Timestamp date = meeting['date'];
+    var toFormat = DateTime.parse(date.toDate().toString());
+    var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -76,7 +79,7 @@ class Meeting_Card extends StatelessWidget {
                           ),
                           SizedBox(width: 5.0),
                           Text(
-                            meeting['date'].toString(),
+                            formattedDate.toString(),
                           ),
                           SizedBox(width: 10.0),
                           Icon(

@@ -1,30 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mrcci_ec/Pages/HomeProvider.dart';
+import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_Components/UpcomingCardForEvent.dart';
 import 'package:mrcci_ec/Pages/component/Dashboard/Dashboard_Components/UpcomingCardForMeeting.dart';
 import 'package:mrcci_ec/constants/loading.dart';
 import 'package:provider/provider.dart';
 
-class UpcomingMeetingsNew extends StatefulWidget {
+class UpcomingEventsNew extends StatefulWidget {
   @override
-  _UpcomingMeetingsNewState createState() => _UpcomingMeetingsNewState();
+  _UpcomingEventsNewState createState() => _UpcomingEventsNewState();
 }
 
-class _UpcomingMeetingsNewState extends State<UpcomingMeetingsNew> {
+class _UpcomingEventsNewState extends State<UpcomingEventsNew> {
   DateTime today = DateTime.now();
-  Stream<QuerySnapshot> upcoming_Meetings_Provider;
-  Stream<QuerySnapshot> upcoming_meetings;
+
+  Stream<QuerySnapshot> upcoming_events;
 
   @override
   Widget build(BuildContext context) {
-    upcoming_meetings = FirebaseFirestore.instance
-        .collection('meetings')
+    upcoming_events = FirebaseFirestore.instance
+        .collection('events')
         .where('date', isGreaterThan: today)
         .snapshots();
     // HomeProvider homeProvider = Provider.of<HomeProvider>(context);
     // upcoming_Meetings_Provider = homeProvider.getUpcomingMeeting;
     return StreamBuilder<QuerySnapshot>(
-      stream: upcoming_meetings,
+      stream: upcoming_events,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return LoadingIndicator();
@@ -66,7 +67,7 @@ class _UpcomingMeetingsNewState extends State<UpcomingMeetingsNew> {
                     // var userRole = currentUser['role'];
                     // print(userRole);
                     // if (meetingRole == 'all' || meetingRole == userRole) {
-                    return UpcomingCardForMeeting(
+                    return UpcomingCardForEvent(
                       cardData: document.data(),
                     );
                     // } else {

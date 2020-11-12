@@ -43,6 +43,10 @@ class EventList extends StatelessWidget {
 
         return new ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
+            Timestamp date = document.data()['date'];
+            var toFormat = DateTime.parse(date.toDate().toString());
+            var formattedDate =
+                "${toFormat.day}-${toFormat.month}-${toFormat.year}";
             return GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -115,7 +119,7 @@ class EventList extends StatelessWidget {
                                   ),
                                   SizedBox(width: 5.0),
                                   Text(
-                                    document.data()['date'].toString(),
+                                    formattedDate.toString(),
                                   ),
                                   SizedBox(width: 10.0),
                                   Icon(

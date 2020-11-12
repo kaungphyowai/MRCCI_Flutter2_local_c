@@ -167,13 +167,16 @@ class RecipeImage extends StatelessWidget {
 }
 
 class RecipeTitle extends StatelessWidget {
-  final Map<String, dynamic> meeting;
+  var meeting;
   final double padding;
 
   RecipeTitle(this.meeting, this.padding);
 
   @override
   Widget build(BuildContext context) {
+    Timestamp date = meeting['date'];
+    var toFormat = DateTime.parse(date.toDate().toString());
+    var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Column(
@@ -192,7 +195,7 @@ class RecipeTitle extends StatelessWidget {
               Icon(Icons.calendar_view_day, size: 20.0),
               SizedBox(width: 5.0),
               Text(
-                meeting['date'],
+                formattedDate,
                 style: Theme.of(context).textTheme.caption,
               ),
               SizedBox(width: 10.0),

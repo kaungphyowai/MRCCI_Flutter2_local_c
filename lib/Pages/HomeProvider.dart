@@ -39,7 +39,6 @@ class HomeProvider extends ChangeNotifier {
         .doc(uid)
         .get();
     userInfo = user.data();
-
     notifyListeners();
   }
 
@@ -72,18 +71,16 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future getUpcomingMeetings() async {
-    String userRole = userInfo['role'];
+    //String userRole = userInfo['role'];
     upcoming_meetings = FirebaseFirestore.instance
         .collection('meetings')
         .where('date', isGreaterThan: today)
         .snapshots();
-
-    upcoming_meetings.forEach((element) {
-      element.docs.forEach((element) {
-        print(element.data());
-      });
-    });
-
     notifyListeners();
+    // upcoming_meetings.forEach((element) {
+    //   element.docs.forEach((element) {
+    //     print(element.data());
+    //   });
+    // });
   }
 }

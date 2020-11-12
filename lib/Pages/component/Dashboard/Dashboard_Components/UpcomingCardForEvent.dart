@@ -1,20 +1,29 @@
+import 'dart:ui';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/event_detail.dart';
 import 'package:mrcci_ec/Pages/component/Detail%20View/meeting_detail.dart';
 
-class UpcomingCard extends StatelessWidget {
+class UpcomingCardForEvent extends StatelessWidget {
   var cardData;
-  UpcomingCard({this.cardData});
+  UpcomingCardForEvent({this.cardData});
+
   @override
   Widget build(BuildContext context) {
+    // var date = DateTime.fromMillisecondsSinceEpoch(cardData['date'] * 1000);\
+    Timestamp date = cardData['date'];
+    var toFormat = DateTime.parse(date.toDate().toString());
+    var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
+
     return GestureDetector(
         onTap: () {
           //go to meeting detail card
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MeetingDetailView(
-                meeting: cardData,
+              builder: (context) => EventDetailView(
+                event: cardData,
               ),
             ),
           );
@@ -32,18 +41,28 @@ class UpcomingCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   alignment: Alignment.center),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Meetings',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-                Text(
-                  'Date',
-                  style: TextStyle(fontSize: 15.0),
-                )
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cardData['title'],
+                    style: TextStyle(
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold,
+                        backgroundColor: Colors.white),
+                  ),
+                  Text(
+                    formattedDate.toString(),
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        backgroundColor: Colors.white),
+                  )
+                ],
+              ),
             ),
           ),
         ));
