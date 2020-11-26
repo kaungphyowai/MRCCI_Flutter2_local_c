@@ -58,11 +58,12 @@ class HomeProvider extends ChangeNotifier {
 
   //To provide the users with the same role as the current users in a listView
   Future fetchSameRoleUsers() async {
-    print("Fetch Same Role User");
+    //print("Fetch Same Role User");
     sameRoleUsers = await FirebaseFirestore.instance
         .collection('userProfiles')
         .where('role', isEqualTo: userInfo['role'])
         .snapshots();
+
     notifyListeners();
   }
 

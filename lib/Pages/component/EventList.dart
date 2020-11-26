@@ -10,6 +10,7 @@ import 'package:mrcci_ec/firebase%20services/firestore_service.dart';
 import 'package:provider/provider.dart';
 
 class EventList extends StatelessWidget {
+  static const String id = "event_list";
   Stream<QuerySnapshot> events_Provider;
   Map<String, dynamic> currentUser;
   @override

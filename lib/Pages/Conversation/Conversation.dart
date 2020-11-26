@@ -5,6 +5,7 @@ import 'ChatListWidget.dart';
 import 'InputWidget.dart';
 
 class Conversation extends StatefulWidget {
+  static const String id = "conversation";
   @override
   _ConversationState createState() => _ConversationState();
   var userinfo;

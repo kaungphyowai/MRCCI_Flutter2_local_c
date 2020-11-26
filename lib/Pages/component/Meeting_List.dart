@@ -11,6 +11,7 @@ import '../../firebase services/authservices.dart';
 import 'Cards/Meeting_Cards.dart';
 
 class MeetingList extends StatelessWidget {
+  static const String id = "meeting_list";
   var userInfo;
 
   Stream<QuerySnapshot> meetings_Provider;

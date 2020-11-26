@@ -6,6 +6,7 @@ import 'component/constant.dart';
 import 'WelcomScreen.dart';
 
 class AuthPage extends StatefulWidget {
+  static const String id = "auth_page";
   @override
   _AuthPageState createState() => _AuthPageState();
 }

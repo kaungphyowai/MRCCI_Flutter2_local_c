@@ -6,5 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MaterialApp(home: AuthPage()));
+  runApp(MaterialApp(
+    home: AuthPage(),
+  ));
 }

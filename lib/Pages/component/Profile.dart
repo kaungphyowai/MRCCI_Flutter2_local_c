@@ -12,6 +12,7 @@ import '../HomeProvider.dart';
 import '../Login.dart';
 
 class Profile extends StatefulWidget {
+  static const String id = "profile";
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -56,9 +57,8 @@ class _ProfileState extends State<Profile> {
           FutureBuilder(
             future: getuserinfo(),
             builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return LoadingIndicator();
-              } else {
+              print(snapshot.connectionState);
+              if (snapshot.hasData) {
                 return Column(
                   children: [
                     Container(
@@ -166,7 +166,7 @@ class _ProfileState extends State<Profile> {
                       color: Colors.lightBlueAccent,
                     ),
                     StreamBuilder<QuerySnapshot>(
-                      stream: homeProvider.getSameRoleUsers,
+                      stream: same_role_users,
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError) {
@@ -185,111 +185,107 @@ class _ProfileState extends State<Profile> {
                         if (snapshot.data == null) {
                           return Text(snapshot.toString());
                         }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return LoadingIndicator();
+
+                        if (snapshot.hasData) {
+                          List<String> userNames = [];
+                          List<String> phoneNumbers = [];
+                          List<String> roles = [];
+                          List<String> photo = [];
+
+                          final users = snapshot.data.docs.reversed;
+
+                          for (var user in users) {
+                            userNames.add(user.data()["username"]);
+                            phoneNumbers.add(user.data()["phone"]);
+                            roles.add(user.data()["role"]);
+                            photo.add(user.data()["photourl"]);
+                          }
+
+                          return Container(
+                            height: 150,
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 40.0,
+                                          width: 40.0,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: photo[index] != null
+                                                  ? NetworkImage(
+                                                      photo[index],
+                                                    )
+                                                  : AssetImage(
+                                                      'assets/images/10.jpg',
+                                                    ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Text(
+                                              userNames[index],
+                                              //textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Text(
+                                              decodeUserRole(roles[index]),
+                                              //textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Text(
+                                              phoneNumbers[index],
+                                              //textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.phone),
+                                          iconSize: 20.0,
+                                          splashRadius: 15.0,
+                                          onPressed: () {
+                                            launch(
+                                                ('tel://${phoneNumbers[index]}'));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      height: 1.0,
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Colors.lightBlueAccent,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          );
                         }
-
-                        List<String> userNames = [];
-                        List<String> phoneNumbers = [];
-                        List<String> roles = [];
-                        List<String> photo = [];
-
-                        final users = snapshot.data.docs.reversed;
-
-                        for (var user in users) {
-                          userNames.add(user.data()["username"]);
-                          phoneNumbers.add(user.data()["phone"]);
-                          roles.add(user.data()["role"]);
-                          photo.add(user.data()["photourl"]);
-                        }
-
-                        return Container(
-                          height: 150,
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.docs.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 40.0,
-                                        width: 40.0,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: userinfo['photourl'] != null
-                                                ? NetworkImage(
-                                                    userinfo['photourl'],
-                                                  )
-                                                : AssetImage(
-                                                    'assets/images/10.jpg',
-                                                  ),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          child: Text(
-                                            userNames[index],
-                                            //textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          child: Text(
-                                            decodeUserRole(roles[index]),
-                                            //textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          child: Text(
-                                            phoneNumbers[index],
-                                            //textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.phone),
-                                        iconSize: 20.0,
-                                        splashRadius: 15.0,
-                                        onPressed: () {
-                                          launch(
-                                              ('tel://${phoneNumbers[index]}'));
-                                          print(
-                                              "This should dial the phone number");
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 1.0,
-                                    width: MediaQuery.of(context).size.width,
-                                    color: Colors.lightBlueAccent,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        );
                       },
                     ),
                     SizedBox(
@@ -331,6 +327,8 @@ class _ProfileState extends State<Profile> {
                     ),
                   ],
                 );
+              } else {
+                return LoadingIndicator();
               }
             },
           ),

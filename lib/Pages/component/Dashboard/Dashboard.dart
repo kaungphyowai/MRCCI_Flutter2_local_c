@@ -15,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'Dashboard_Components/DashBoard_Functions.dart';
 
 class Dashboard extends StatefulWidget {
+  static const String id = "dashboard";
   @override
   _DashboardState createState() => _DashboardState();
 }
