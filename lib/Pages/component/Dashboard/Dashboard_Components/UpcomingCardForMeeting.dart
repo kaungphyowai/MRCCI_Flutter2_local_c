@@ -12,7 +12,7 @@ class UpcomingCardForMeeting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // var date = DateTime.fromMillisecondsSinceEpoch(cardData['date'] * 1000);\
-    Timestamp date = cardData['date'];
+    Timestamp date = cardData['dateFlutter'];
     var toFormat = DateTime.parse(date.toDate().toString());
     var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
 

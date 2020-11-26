@@ -12,7 +12,7 @@ class UpcomingCardForEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // var date = DateTime.fromMillisecondsSinceEpoch(cardData['date'] * 1000);\
-    Timestamp date = cardData['date'];
+    Timestamp date = cardData['dateFlutter'];
     var toFormat = DateTime.parse(date.toDate().toString());
     var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
 
@@ -36,7 +36,7 @@ class UpcomingCardForEvent extends StatelessWidget {
               color: Colors.grey,
               image: new DecorationImage(
                   image: cardData['photoUrl'] == null
-                      ? Image.asset('assets/images/meeting.jpeg')
+                      ? AssetImage('assets/images/meeting.jpeg')
                       : NetworkImage(cardData['photoUrl'].toString()),
                   fit: BoxFit.cover,
                   alignment: Alignment.center),

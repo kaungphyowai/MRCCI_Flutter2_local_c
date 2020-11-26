@@ -174,7 +174,8 @@ class RecipeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timestamp date = meeting['date'];
+    Timestamp date = meeting['dateFlutter'];
+    print(date);
     var toFormat = DateTime.parse(date.toDate().toString());
     var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
     return Padding(

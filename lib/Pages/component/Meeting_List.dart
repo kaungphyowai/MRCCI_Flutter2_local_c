@@ -98,16 +98,18 @@ class MeetingList extends StatelessWidget {
         }
 
         return new ListView(
-          children: snapshot.data.docs.length == null
-              ? Center(
-                  child: Expanded(
-                      child: Text(
-                    'There is no meetings yet.',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  )),
-                )
+          children: (snapshot.data.docs.length == null)
+              ? [
+                  Center(
+                    child: Expanded(
+                        child: Text(
+                      'There is no meetings yet.',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    )),
+                  )
+                ]
               : snapshot.data.docs.map((DocumentSnapshot document) {
                   //print(document.data());
                   // String meetingRole = document.data()['role'];

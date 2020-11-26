@@ -26,6 +26,9 @@ class HomeProvider extends ChangeNotifier {
   Stream<QuerySnapshot> events;
   Stream<QuerySnapshot> get getEvents => events;
 
+  Stream<QuerySnapshot> sameRoleUsers;
+  Stream<QuerySnapshot> get getSameRoleUsers => sameRoleUsers;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Future getuserinfo() async {
     // final uid = firebaseAuth.currentUser.uid;
@@ -53,14 +56,22 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+  //To provide the users with the same role as the current users in a listView
+  Future fetchSameRoleUsers() async {
+    print("Fetch Same Role User");
+    sameRoleUsers = await FirebaseFirestore.instance
+        .collection('userProfiles')
+        .where('role', isEqualTo: userInfo['role'])
+        .snapshots();
+    notifyListeners();
+  }
+
   Future fetchMeetings() async {
     //await getuserinfo();
     //print('Print from fetchMeetings Provider ${userInfo['role']}');
     meetings = await FirebaseFirestore.instance
         .collection('meetings')
-        .where('role', isEqualTo: userInfo['role'])
-        .snapshots();
-
+        .where('role', whereIn: [userInfo['role'], "all"]).snapshots();
     //print('Meeting size : ${meetings.length}');
     notifyListeners();
   }

@@ -43,7 +43,7 @@ class EventList extends StatelessWidget {
 
         return new ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            Timestamp date = document.data()['date'];
+            Timestamp date = document.data()['dateFlutter'];
             var toFormat = DateTime.parse(date.toDate().toString());
             var formattedDate =
                 "${toFormat.day}-${toFormat.month}-${toFormat.year}";

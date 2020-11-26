@@ -105,6 +105,7 @@ class _HomeState extends State<Home> {
     await homeProvider.getUpcomingMeetings();
     await homeProvider.fetchMeetings();
     await homeProvider.fetchEvents();
+    await homeProvider.fetchSameRoleUsers();
 
     //var user = homeProvider.getcurrentUserInfo;
     //print('Fetched User Info from Provider : $user');
@@ -113,41 +114,52 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     fetchFromProvider(context);
-    return Scaffold(
-      appBar: AppBar(title: _appBarText.elementAt(_selectedIndex)),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        width: double.maxFinite,
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              title: Text('Dashboard'),
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              title: Text('Meetings'),
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_view_day),
-              title: Text('Events'),
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              title: Text('Chat'),
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profile'),
-              backgroundColor: Colors.black),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightBlue[200],
-        onTap: _onItemTapped,
-        elevation: 8.0,
-        backgroundColor: Colors.black,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: _appBarText.elementAt(_selectedIndex),
+          automaticallyImplyLeading: false,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                width: double.maxFinite,
+                child: _widgetOptions.elementAt(_selectedIndex),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard),
+                title: Text('Dashboard'),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.people),
+                title: Text('Meetings'),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_view_day),
+                title: Text('Events'),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                title: Text('Chat'),
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                title: Text('Profile'),
+                backgroundColor: Colors.black),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.lightBlue[200],
+          onTap: _onItemTapped,
+          elevation: 8.0,
+          backgroundColor: Colors.black,
+        ),
       ),
     );
   }

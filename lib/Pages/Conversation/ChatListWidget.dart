@@ -16,6 +16,7 @@ class ChatListWidget extends StatelessWidget {
     return StreamBuilder(
       stream: ref.child(userinfo['role']).onValue,
       builder: (context, snapshot) {
+        //print("Snapshot data : " + snapshot.data.toString());
         print('builder');
         if (snapshot.hasData &&
             !snapshot.hasError &&
@@ -36,6 +37,16 @@ class ChatListWidget extends StatelessWidget {
               controller: listScrollController,
             ),
           );
+        } else if (snapshot.data == null) {
+          return Center(child: Text(
+            "Start Conversation",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.w400,
+              color: Colors.grey,
+            ),
+          ),);
         } else {
           return CircularProgressIndicator();
         }

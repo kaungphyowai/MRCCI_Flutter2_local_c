@@ -19,7 +19,7 @@ class _UpcomingMeetingsNewState extends State<UpcomingMeetingsNew> {
   Widget build(BuildContext context) {
     upcoming_meetings = FirebaseFirestore.instance
         .collection('meetings')
-        .where('date', isGreaterThan: today)
+        .where('dateFlutter', isGreaterThan: today)
         .snapshots();
     // HomeProvider homeProvider = Provider.of<HomeProvider>(context);
     // upcoming_Meetings_Provider = homeProvider.getUpcomingMeeting;

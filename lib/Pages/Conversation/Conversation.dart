@@ -47,7 +47,11 @@ class _ConversationState extends State<Conversation> {
                 children: [
                   Column(
                     children: [
-                      ChatListWidget(widget.userinfo),
+                      Expanded(
+                        child: Container(
+                          child: ChatListWidget(widget.userinfo),
+                        ),
+                      ),
                       InputWidget(widget.userinfo),
                     ],
                   )
