@@ -27,14 +27,6 @@ class _UpcomingEventsNewState extends State<UpcomingEventsNew> {
     return StreamBuilder<QuerySnapshot>(
       stream: upcoming_events,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.none) {
-          return LoadingIndicator();
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return LoadingIndicator();
-        }
-
         if (snapshot.hasError) {
           return Center(
             child: Text(
@@ -44,38 +36,40 @@ class _UpcomingEventsNewState extends State<UpcomingEventsNew> {
           );
         }
 
-        // if (snapshot.connectionState == ConnectionState.waiting) {
-        //   return LoadingIndicator();
-        // }
+        if (snapshot.data == null) {
+          return LoadingIndicator();
+        }
 
-        return Container(
-          height: 200,
-          child: new ListView(
-            scrollDirection: Axis.horizontal,
-            children: snapshot.data.docs.length == null
-                ? Center(
-                    child: Text(
-                      'There is no upcoming meetings yet.',
-                      style: TextStyle(
-                        fontSize: 20,
+        if (snapshot.hasData && snapshot.data != null) {
+          return Container(
+            height: 200,
+            child: new ListView(
+              scrollDirection: Axis.horizontal,
+              children: snapshot.data.docs.length == null
+                  ? Center(
+                      child: Text(
+                        'There is no upcoming meetings yet.',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                  )
-                : snapshot.data.docs.map((DocumentSnapshot document) {
-                    //print(document.data());
-                    // String meetingRole = document.data()['role'];
-                    // var userRole = currentUser['role'];
-                    // print(userRole);
-                    // if (meetingRole == 'all' || meetingRole == userRole) {
-                    return UpcomingCardForEvent(
-                      cardData: document.data(),
-                    );
-                    // } else {
-                    //   return Container();
-                    // }
-                  }).toList(),
-          ),
-        );
+                    )
+                  : snapshot.data.docs.map((DocumentSnapshot document) {
+                      //print(document.data());
+                      // String meetingRole = document.data()['role'];
+                      // var userRole = currentUser['role'];
+                      // print(userRole);
+                      // if (meetingRole == 'all' || meetingRole == userRole) {
+                      return UpcomingCardForEvent(
+                        cardData: document.data(),
+                      );
+                      // } else {
+                      //   return Container();
+                      // }
+                    }).toList(),
+            ),
+          );
+        }
       },
     );
   }

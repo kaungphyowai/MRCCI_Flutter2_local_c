@@ -32,10 +32,18 @@ class _ConversationState extends State<Conversation> {
             child: Text('There is No internet'),
           );
         }
+        // if (snapshot.connectionState == ConnectionState.none) {
+        //   return Center(
+        //     child: Text(
+        //       'Connect to the Internet',
+        //       style: TextStyle(fontSize: 18),
+        //     ),
+        //   );
+        // }
         if (snapshot.data == null) {
           return CircularProgressIndicator();
         }
-        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasData) {
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(

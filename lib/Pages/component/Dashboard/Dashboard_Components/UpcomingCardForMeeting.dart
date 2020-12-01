@@ -35,9 +35,9 @@ class UpcomingCardForMeeting extends StatelessWidget {
             decoration: new BoxDecoration(
               color: Colors.grey,
               image: new DecorationImage(
-                  image: cardData['photoUrl'] != null
-                      ? NetworkImage(cardData['photoUrl'].toString())
-                      : AssetImage('assets/images/meeting.jpeg'),
+                  image: cardData['photoUrl'] == null
+                      ? AssetImage('assets/images/meeting.jpeg')
+                      : NetworkImage(cardData['photoUrl'].toString()),
                   fit: BoxFit.cover,
                   alignment: Alignment.center),
             ),

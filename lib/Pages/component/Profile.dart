@@ -53,11 +53,19 @@ class _ProfileState extends State<Profile> {
 
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FutureBuilder(
             future: getuserinfo(),
             builder: (context, AsyncSnapshot snapshot) {
-              print(snapshot.connectionState);
+              // if (snapshot.connectionState == ConnectionState.none) {
+              //   return Center(
+              //     child: Text(
+              //       'Connect to the Internet',
+              //       style: TextStyle(fontSize: 18),
+              //     ),
+              //   );
+              // }
               if (snapshot.hasData) {
                 return Column(
                   children: [
@@ -183,7 +191,7 @@ class _ProfileState extends State<Profile> {
                           );
                         }
                         if (snapshot.data == null) {
-                          return Text(snapshot.toString());
+                          return LoadingIndicator();
                         }
 
                         if (snapshot.hasData) {
@@ -202,6 +210,7 @@ class _ProfileState extends State<Profile> {
                           }
 
                           return Container(
+                            color: Colors.grey[200],
                             height: 150,
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
@@ -333,15 +342,15 @@ class _ProfileState extends State<Profile> {
             },
           ),
           Container(
-            child: MaterialButton(
-              color: Colors.redAccent[600],
-              textColor: Colors.black,
+            padding: EdgeInsets.all(10.0),
+            child: GestureDetector(
+              //color: Colors.redAccent[600],
               child: Text(
                 'Sign Out',
-                textAlign: TextAlign.start,
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, letterSpacing: 2.0),
               ),
-              elevation: 10.0,
-              onPressed: () async {
+              onTap: () async {
                 setState(() {
                   loading = true;
                 });

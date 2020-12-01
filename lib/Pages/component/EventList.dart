@@ -29,18 +29,18 @@ class EventList extends StatelessWidget {
           return Text('Something went wrong');
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.data == null) {
           return LoadingIndicator();
         }
 
-        if (snapshot.connectionState == ConnectionState.none) {
-          return Center(
-            child: Text(
-              'Connect to the Internet',
-              style: TextStyle(fontSize: 18),
-            ),
-          );
-        }
+        // if (snapshot.connectionState == ConnectionState.none) {
+        //   return Center(
+        //     child: Text(
+        //       'Connect to the Internet',
+        //       style: TextStyle(fontSize: 18),
+        //     ),
+        //   );
+        // }
 
         return new ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {

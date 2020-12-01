@@ -93,38 +93,46 @@ class MeetingList extends StatelessWidget {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        // if (snapshot.connectionState == ConnectionState.none) {
+        //   return Center(
+        //     child: Text(
+        //       'Connect to the Internet',
+        //       style: TextStyle(fontSize: 18),
+        //     ),
+        //   );
+        // }
+        if (snapshot.data == null) {
           return LoadingIndicator();
         }
-
-        return new ListView(
-          children: (snapshot.data.docs.length == null)
-              ? [
-                  Center(
-                    child: Expanded(
-                        child: Text(
-                      'There is no meetings yet.',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    )),
-                  )
-                ]
-              : snapshot.data.docs.map((DocumentSnapshot document) {
-                  //print(document.data());
-                  // String meetingRole = document.data()['role'];
-                  // var userRole = currentUser['role'];
-                  // print(userRole);
-                  // if (meetingRole == 'all' || meetingRole == userRole) {
-                  return Meeting_Card(
-                    meeting: document.data(),
-                  );
-                  // } else {
-                  //   return Container();
-                  // }
-                }).toList(),
-        );
+        if (snapshot.hasData) {
+          return new ListView(
+            children: (snapshot.data.docs.length == null)
+                ? [
+                    Center(
+                      child: Expanded(
+                          child: Text(
+                        'There is no meetings yet.',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )),
+                    )
+                  ]
+                : snapshot.data.docs.map((DocumentSnapshot document) {
+                    //print(document.data());
+                    // String meetingRole = document.data()['role'];
+                    // var userRole = currentUser['role'];
+                    // print(userRole);
+                    // if (meetingRole == 'all' || meetingRole == userRole) {
+                    return Meeting_Card(
+                      meeting: document.data(),
+                    );
+                    // } else {
+                    //   return Container();
+                    // }
+                  }).toList(),
+          );
+        }
       },
     );
   }

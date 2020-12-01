@@ -59,7 +59,11 @@ class _CurrencyCalculatorState extends State<CurrencyCalculator> {
     return FutureBuilder(
         future: getCurrency(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.data == null) {
+            return LoadingIndicator();
+          }
+
+          if (snapshot.hasData && snapshot.data != null) {
             return Card(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),

@@ -120,17 +120,21 @@ class _HomeState extends State<Home> {
           title: _appBarText.elementAt(_selectedIndex),
           automaticallyImplyLeading: false,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                width: double.maxFinite,
-                child: _widgetOptions.elementAt(_selectedIndex),
-              ),
-            ),
-          ],
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
         ),
+        // body: Column(
+        //   children: [
+        //     Expanded(
+        //       child: Container(
+        //         padding: EdgeInsets.symmetric(horizontal: 10),
+        //         width: double.maxFinite,
+        //         child: _widgetOptions.elementAt(_selectedIndex),
+        //       ),
+        //     ),
+        //   ],
+        // ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
