@@ -41,25 +41,30 @@ class _UpcomingEventsNewState extends State<UpcomingEventsNew> {
         }
 
         if (snapshot.hasData && snapshot.data != null) {
+          print("Docs" + snapshot.data.docs.length.toString());
           return Container(
             height: 200,
             child: new ListView(
               scrollDirection: Axis.horizontal,
-              children: snapshot.data.docs.length == null
-                  ? Center(
-                      child: Text(
-                        'There is no upcoming meetings yet.',
-                        style: TextStyle(
-                          fontSize: 20,
+              children: snapshot.data.docs.isEmpty
+                  ? [
+                      Center(
+                        child: Text(
+                          'There is no upcoming meetings yet.',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                    )
+                      )
+                    ]
                   : snapshot.data.docs.map((DocumentSnapshot document) {
                       //print(document.data());
                       // String meetingRole = document.data()['role'];
                       // var userRole = currentUser['role'];
                       // print(userRole);
                       // if (meetingRole == 'all' || meetingRole == userRole) {
+
                       return UpcomingCardForEvent(
                         cardData: document.data(),
                       );

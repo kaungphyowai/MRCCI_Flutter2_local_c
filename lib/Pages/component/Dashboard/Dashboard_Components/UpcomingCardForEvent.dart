@@ -15,7 +15,6 @@ class UpcomingCardForEvent extends StatelessWidget {
     Timestamp date = cardData['dateFlutter'];
     var toFormat = DateTime.parse(date.toDate().toString());
     var formattedDate = "${toFormat.day}-${toFormat.month}-${toFormat.year}";
-
     return GestureDetector(
         onTap: () {
           //go to meeting detail card

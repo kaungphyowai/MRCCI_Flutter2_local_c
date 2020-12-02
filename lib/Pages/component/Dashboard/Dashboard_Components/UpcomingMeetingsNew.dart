@@ -45,14 +45,16 @@ class _UpcomingMeetingsNewState extends State<UpcomingMeetingsNew> {
             child: new ListView(
               scrollDirection: Axis.horizontal,
               children: snapshot.data.docs.length == null
-                  ? Center(
-                      child: Text(
-                        'There is no upcoming meetings yet.',
-                        style: TextStyle(
-                          fontSize: 20,
+                  ? [
+                      Center(
+                        child: Text(
+                          'There is no upcoming meetings yet.',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                    )
+                      )
+                    ]
                   : snapshot.data.docs.map((DocumentSnapshot document) {
                       //print(document.data());
                       // String meetingRole = document.data()['role'];

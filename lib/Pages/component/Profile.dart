@@ -74,14 +74,6 @@ class _ProfileState extends State<Profile> {
             userList.sort((a, b) {
               return a.data()["username"].compareTo(b.data()["username"]);
             });
-            // userNames.add(user.data()["username"]);
-            // // userNames.sort((a, b) {
-            // //   return a.compareTo(b);
-            // // });
-
-            // phoneNumbers.add(user.data()["phone"]);
-            // roles.add(user.data()["role"]);
-            // photo.add(user.data()["photourl"]);
           }
 
           for (var user in userList) {
@@ -303,6 +295,7 @@ class _ProfileState extends State<Profile> {
                           ),
                           onPressed: () {
                             print("This should go to dialing");
+                            launch(('tel://${userinfo['phone']}'));
                           },
                         ),
                       ],
