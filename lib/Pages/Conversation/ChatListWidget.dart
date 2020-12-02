@@ -17,14 +17,12 @@ class ChatListWidget extends StatelessWidget {
       stream: ref.child(userinfo['role']).onValue,
       builder: (context, snapshot) {
         //print("Snapshot data : " + snapshot.data.toString());
-        print('builder');
+
         if (snapshot.hasData &&
             !snapshot.hasError &&
             snapshot.data.snapshot.value != null) {
           var data = snapshot.data.snapshot.value;
           int datalength = data.length;
-          print('Widget rebuild');
-          print(snapshot.data.snapshot.value[0]);
           return Flexible(
             child: ListView.builder(
               padding: EdgeInsets.all(10.0),
@@ -38,15 +36,17 @@ class ChatListWidget extends StatelessWidget {
             ),
           );
         } else if (snapshot.data == null) {
-          return Center(child: Text(
-            "Start Conversation",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey,
+          return Center(
+            child: Text(
+              "Start Conversation",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25.0,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
             ),
-          ),);
+          );
         } else {
           return CircularProgressIndicator();
         }

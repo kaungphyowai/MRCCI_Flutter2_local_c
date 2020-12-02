@@ -62,6 +62,8 @@ class HomeProvider extends ChangeNotifier {
     sameRoleUsers = await FirebaseFirestore.instance
         .collection('userProfiles')
         .where('role', isEqualTo: userInfo['role'])
+        //.orderBy("username")
+        //.orderBy("username", descending: true)
         .snapshots();
 
     notifyListeners();

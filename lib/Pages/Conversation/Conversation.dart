@@ -17,7 +17,6 @@ class _ConversationState extends State<Conversation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.userinfo['role']);
   }
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();

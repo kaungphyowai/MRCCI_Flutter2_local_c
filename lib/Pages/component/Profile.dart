@@ -45,6 +45,122 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  Widget SameRoleUserListView(Stream<QuerySnapshot> same_role_users) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: same_role_users,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+          return Container(
+            child: Center(
+              child: Text("Something went wrong"),
+            ),
+          );
+        }
+        if (snapshot.data == null) {
+          return LoadingIndicator();
+        }
+
+        if (snapshot.hasData && snapshot.data != null) {
+          List<String> userNames = [];
+          List<String> phoneNumbers = [];
+          List<String> roles = [];
+          List<String> photo = [];
+
+          final users = snapshot.data.docs.reversed;
+          List<QueryDocumentSnapshot> userList = [];
+          for (var user in users) {
+            userList.add(user);
+            userList.sort((a, b) {
+              return a.data()["username"].compareTo(b.data()["username"]);
+            });
+            // userNames.add(user.data()["username"]);
+            // // userNames.sort((a, b) {
+            // //   return a.compareTo(b);
+            // // });
+
+            // phoneNumbers.add(user.data()["phone"]);
+            // roles.add(user.data()["role"]);
+            // photo.add(user.data()["photourl"]);
+          }
+
+          for (var user in userList) {
+            userNames.add(user.data()["username"]);
+            phoneNumbers.add(user.data()["phone"]);
+            roles.add(user.data()["role"]);
+            photo.add(user.data()["photourl"]);
+          }
+
+          return Container(
+            margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+            color: Colors.grey[300],
+            padding: EdgeInsets.all(10.0),
+            //height: 200,
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          height: 40.0,
+                          width: 40.0,
+                          padding: EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: photo[index] != null
+                                  ? NetworkImage(
+                                      photo[index],
+                                    )
+                                  : AssetImage(
+                                      'assets/images/10.jpg',
+                                    ),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Expanded(
+                          child: SameRoleUsersDataDisplayer(
+                              maxLines: 1, data: userNames[index]),
+                        ),
+                        // Expanded(
+                        //   child: SameRoleUsersDataDisplayer(
+                        //       maxLines: 3, data: decodeUserRole(roles[index])),
+                        // ),
+                        Expanded(
+                          child: SameRoleUsersDataDisplayer(
+                              maxLines: 1, data: phoneNumbers[index]),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.phone),
+                          iconSize: 20.0,
+                          splashRadius: 15.0,
+                          onPressed: () {
+                            launch(('tel://${phoneNumbers[index]}'));
+                          },
+                        ),
+                      ],
+                    ),
+                    BaseLine(
+                      lineColor: Colors.lightBlueAccent,
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //To Use Getter methods from HomeProvider //FYI for future developments
@@ -52,20 +168,13 @@ class _ProfileState extends State<Profile> {
     same_role_users = homeProvider.getSameRoleUsers;
 
     return SingleChildScrollView(
+      padding: EdgeInsets.all(5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FutureBuilder(
             future: getuserinfo(),
             builder: (context, AsyncSnapshot snapshot) {
-              // if (snapshot.connectionState == ConnectionState.none) {
-              //   return Center(
-              //     child: Text(
-              //       'Connect to the Internet',
-              //       style: TextStyle(fontSize: 18),
-              //     ),
-              //   );
-              // }
               if (snapshot.hasData) {
                 return Column(
                   children: [
@@ -91,8 +200,53 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width / 1.5,
+                          top: 20.0,
+                          right: 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        color: Colors.lightBlueAccent,
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      //alignment: Alignment(0.8, 5.5),
+                      child: GestureDetector(
+                        child: Row(
+                          children: [
+                            Text(
+                              'Sign Out',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Expanded(
+                              child: Icon(
+                                Icons.logout,
+                                size: 20.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          await firebaseAuth.signOut();
+                          setState(() {
+                            loading = false;
+                          });
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => Login()));
+                        },
+                      ),
+                    ),
                     SizedBox(
-                      height: 80,
+                      height: 30,
                     ),
                     Text(
                       userinfo['username'],
@@ -153,10 +307,8 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
-                    Container(
-                      height: 1.0,
-                      color: Colors.grey,
-                      width: MediaQuery.of(context).size.width,
+                    BaseLine(
+                      lineColor: Colors.grey,
                     ),
                     Container(
                       padding: EdgeInsets.all(10.0),
@@ -168,143 +320,14 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 1.0,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.lightBlueAccent,
+                    BaseLine(
+                      lineColor: Colors.lightBlueAccent,
                     ),
-                    StreamBuilder<QuerySnapshot>(
-                      stream: same_role_users,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Center(
-                                    child: Text("Something went wrong"),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                        if (snapshot.data == null) {
-                          return LoadingIndicator();
-                        }
-
-                        if (snapshot.hasData) {
-                          List<String> userNames = [];
-                          List<String> phoneNumbers = [];
-                          List<String> roles = [];
-                          List<String> photo = [];
-
-                          final users = snapshot.data.docs.reversed;
-
-                          for (var user in users) {
-                            userNames.add(user.data()["username"]);
-                            phoneNumbers.add(user.data()["phone"]);
-                            roles.add(user.data()["role"]);
-                            photo.add(user.data()["photourl"]);
-                          }
-
-                          return Container(
-                            color: Colors.grey[200],
-                            height: 150,
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.docs.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 40.0,
-                                          width: 40.0,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: photo[index] != null
-                                                  ? NetworkImage(
-                                                      photo[index],
-                                                    )
-                                                  : AssetImage(
-                                                      'assets/images/10.jpg',
-                                                    ),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10.0,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              userNames[index],
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              decodeUserRole(roles[index]),
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              phoneNumbers[index],
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: Icon(Icons.phone),
-                                          iconSize: 20.0,
-                                          splashRadius: 15.0,
-                                          onPressed: () {
-                                            launch(
-                                                ('tel://${phoneNumbers[index]}'));
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      height: 1.0,
-                                      width: MediaQuery.of(context).size.width,
-                                      color: Colors.lightBlueAccent,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                    SameRoleUserListView(same_role_users),
                     SizedBox(
                       height: 10.0,
                     ),
-                    Container(
-                      height: 1.0,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.grey,
-                    ),
+                    BaseLine(lineColor: Colors.grey),
                     Row(
                       children: [
                         Expanded(
@@ -329,11 +352,7 @@ class _ProfileState extends State<Profile> {
                         )
                       ],
                     ),
-                    Container(
-                      height: 1.0,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.grey,
-                    ),
+                    BaseLine(lineColor: Colors.grey),
                   ],
                 );
               } else {
@@ -341,34 +360,44 @@ class _ProfileState extends State<Profile> {
               }
             },
           ),
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: GestureDetector(
-              //color: Colors.redAccent[600],
-              child: Text(
-                'Sign Out',
-                style:
-                    TextStyle(fontWeight: FontWeight.w400, letterSpacing: 2.0),
-              ),
-              onTap: () async {
-                setState(() {
-                  loading = true;
-                });
-                await firebaseAuth.signOut();
-                setState(() {
-                  loading = false;
-                });
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Login()));
-              },
-            ),
-          ),
         ],
       ),
     );
   }
 }
 
-// return
+class BaseLine extends StatelessWidget {
+  final Color lineColor;
+
+  BaseLine({this.lineColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 1.0,
+      width: MediaQuery.of(context).size.width,
+      color: lineColor,
+    );
+  }
+}
+
+class SameRoleUsersDataDisplayer extends StatelessWidget {
+  final String data;
+  final int maxLines;
+
+  SameRoleUsersDataDisplayer({@required this.data, this.maxLines});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: Text(
+        data,
+        maxLines: maxLines,
+        style: TextStyle(
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    );
+  }
+}
